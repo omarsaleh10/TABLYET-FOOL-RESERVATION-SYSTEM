@@ -351,6 +351,16 @@ export default function Home() {
                             </div>
                         )}
 
+                        {/* Cancellation Policy Notice */}
+                        <div className="bg-brand-orange/5 border border-brand-orange/20 rounded-xl p-4 text-center">
+                            <p className="text-brand-orange text-sm font-bold flex items-center justify-center gap-2">
+                                <span className="text-lg">⚠️</span> Important Note
+                            </p>
+                            <p className="text-brand-charcoal/80 text-xs mt-1">
+                                Reservations are only held for <span className="font-bold">15 minutes</span> past the booking time.
+                            </p>
+                        </div>
+
                         <button 
                             type="submit"
                             disabled={loading}
@@ -381,10 +391,15 @@ export default function Home() {
             ].map((stat, i) => (
                 <div key={i} className="w-16 h-16 rounded-full border-2 border-dashed border-brand-charcoal/20 flex flex-col items-center justify-center bg-brand-beige shadow-sm rotate-[-5deg] hover:rotate-0 transition-transform cursor-default">
                     <span className="text-lg font-bold font-display text-brand-charcoal">{stat.val}</span>
-                    <span className="text-[9px] uppercase tracking-wide text-brand-muted">{stat.label}</span>
+                    <span className="text-xs uppercase tracking-wide text-brand-muted">{stat.label}</span>
                 </div>
             ))}
         </div>
+        
+        {/* Policy Footnote */}
+        <p className="text-center text-[10px] text-brand-charcoal/50 mt-6 italic max-w-xs">
+            * Please note: Reservations are only held for 15 minutes past the booking time.
+        </p>
         
       </div>
     </div>
