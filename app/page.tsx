@@ -110,7 +110,7 @@ export default function Home() {
                      />
                 </div>
                 {/* Vertical Divider */}
-                <div className="h-16 w-[2px] bg-black rounded-full" />
+                <div className="h-12 w-[1px] bg-black rounded-full" />
                 
                 <div className="relative w-24 h-24 md:w-32 md:h-32 drop-shadow-xl hover:scale-105 transition-transform duration-500">
                      <Image 
