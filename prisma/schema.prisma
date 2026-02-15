@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://neondb_owner:npg_GXQsTdr81FqY@ep-jolly-snow-agrvvpqb-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+}
+
+model Table {
+  id           Int           @id @default(autoincrement())
+  name         String
+  capacity     Int           @default(5)
+  reservations Reservation[] @relation("TableReservations")
+}
+
+model Reservation {
+  id            String   @id @default(uuid())
+  createdAt     DateTime @default(now())
+  date          DateTime // Stores the "Night" date (e.g. 2026-03-14)
+  slot          String   // "10PM-12AM", "12AM-2AM", or "2AM-4AM"
+  partySize     Int
+  customerName  String
+  customerPhone String
+  customerEmail String
+  
+  // Implicit Many-to-Many relation (One reservation can have multiple tables)
+  tables        Table[]  @relation("TableReservations")
+}
+
+model SlotLock {
+  id        Int      @id @default(autoincrement())
+  date      DateTime
+  slot      String
+  isLocked  Boolean  @default(true)
+
+  @@unique([date, slot])
+}
