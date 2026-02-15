@@ -36,6 +36,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${cairo.variable} ${merriweather.variable} ${inter.variable} antialiased font-sans bg-brand-beige text-brand-charcoal`}
+        suppressHydrationWarning={true}
       >
         <main className="min-h-screen">
             {children}
