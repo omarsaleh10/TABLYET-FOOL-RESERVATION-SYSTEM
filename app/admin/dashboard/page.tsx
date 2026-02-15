@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
-import { deleteReservation, markNoShow, toggleSlotLock } from '../../reservation-actions';
+import { softDeleteReservation, markNoShow, toggleSlotLock } from '../../reservation-actions';
+import AdminDatePicker from '@/components/AdminDatePicker';
 
 const prisma = new PrismaClient();
 
@@ -23,12 +24,18 @@ export default async function AdminDashboard({
   // 1. Reservations
   const whereClause: any = {
     date: queryDate,
+    status: 'CONFIRMED', // Only show active reservations
   };
   if (slot && slot !== 'All') whereClause.slot = slot;
   if (search) {
      if (search.length > 2) {
          delete whereClause.date; 
          delete whereClause.slot; 
+         // If searching, maybe we want to see ALL statuses? 
+         // For now let's keep it restricted to 'CONFIRMED' to avoid confusion, 
+         // or we can allow searching history.
+         // Let's remove the status filter if searching, to find deleted ones.
+         delete whereClause.status;
     }
     whereClause.OR = [
         { customerName: { contains: search, mode: 'insensitive' } },
@@ -67,6 +74,15 @@ export default async function AdminDashboard({
           <div>
             <h1 className="text-3xl font-bold text-brand-text">Admin Control</h1>
             <p className="text-brand-muted text-sm">Manage Capacity & Bookings</p>
+            <div className="mt-4">
+                <a 
+                    href="/api/export-reservations" 
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white text-sm font-bold rounded-lg hover:bg-green-700 transition-colors shadow-sm"
+                    target="_blank"
+                >
+                    <span>📊</span> Export to Excel/CSV
+                </a>
+            </div>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 w-full lg:w-auto">
@@ -80,7 +96,7 @@ export default async function AdminDashboard({
               </div>
                <div className="bg-light-beige p-4 rounded-xl border border-brand-text/5 shadow-sm">
                   <p className="text-xs uppercase text-brand-muted">Tables Occupied</p>
-                  <p className="text-2xl font-bold text-brand-text">{occupiedCount} <span className="text-sm text-brand-muted font-normal">/ 34</span></p>
+                  <p className="text-2xl font-bold text-brand-text">{occupiedCount} <span className="text-sm text-brand-muted font-normal">/ 38</span></p>
               </div>
           </div>
         </div>
@@ -92,17 +108,7 @@ export default async function AdminDashboard({
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {/* Date Picker for Locking (Syncs with Filter) */}
-                <form className="flex flex-col">
-                     <label className="text-xs text-brand-muted mb-1">Manage Date</label>
-                     <input 
-                        type="date" 
-                        name="date" 
-                        defaultValue={selectedDateStr}
-                        className="bg-brand-beige border border-brand-text/10 rounded-lg px-3 py-2 text-sm h-12 w-full font-bold text-brand-text focus:outline-none focus:border-brand-orange" 
-
-                    />
-                    <button type="submit" className="mt-2 text-xs text-brand-orange font-bold hover:underline">Go to Date</button>
-                </form>
+                <AdminDatePicker selectedDate={selectedDateStr} />
 
                 {/* Slot Toggles */}
                 {slotsList.map((s) => {
@@ -230,6 +236,10 @@ export default async function AdminDashboard({
                                 <p className="text-brand-text">{res.slot}</p>
                         </div>
                         <div className="bg-white p-2 rounded border border-brand-text/5">
+                                <p className="text-xs text-brand-muted uppercase">Phone</p>
+                                <p className="text-brand-text font-mono tracking-tight">{res.customerPhone}</p>
+                        </div>
+                        <div className="col-span-2 bg-white p-2 rounded border border-brand-text/5">
                                 <p className="text-xs text-brand-muted uppercase">Tables</p>
                                 <p className="text-brand-text font-bold">{res.tables.map(t => t.name).join(', ')}</p>
                         </div>

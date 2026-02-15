@@ -59,6 +59,13 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // ERROR PREVENTION: Phone Number Validation
+    if (formData.customerPhone.length !== 11) {
+        setAvailabilityError('Phone number must be exactly 11 digits.');
+        return;
+    }
+
     setLoading(true);
 
     const response = await createReservation({
@@ -164,7 +171,11 @@ export default function Home() {
                                 {Array.from({ length: 30 }).map((_, i) => {
                                     const d = new Date();
                                     d.setDate(d.getDate() + i);
-                                    const dateStr = d.toISOString().split('T')[0];
+                                    // FORCE LOCAL STRING (YYYY-MM-DD) to match the visual label
+                                    const year = d.getFullYear();
+                                    const month = String(d.getMonth() + 1).padStart(2, '0');
+                                    const day = String(d.getDate()).padStart(2, '0');
+                                    const dateStr = `${year}-${month}-${day}`;
                                     const isSelected = formData.date === dateStr;
                                     
                                     return (
@@ -331,7 +342,13 @@ export default function Home() {
                                     type="tel" required placeholder="Phone Number"
                                     className="w-full h-14 pl-12 pr-4 bg-white border border-brand-charcoal/10 rounded-xl focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/10 outline-none transition-all"
                                     value={formData.customerPhone}
-                                    onChange={(e) => setFormData({...formData, customerPhone: e.target.value})}
+                                    onChange={(e) => {
+                                        // Only allow digits
+                                        const val = e.target.value.replace(/\D/g, '');
+                                        if (val.length <= 11) {
+                                            setFormData({...formData, customerPhone: val});
+                                        }
+                                    }}
                                 />
                             </div>
                              <div className="relative">

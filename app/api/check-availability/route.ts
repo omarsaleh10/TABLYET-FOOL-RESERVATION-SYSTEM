@@ -36,7 +36,8 @@ export async function POST(request: Request) {
     const existingReservations = await prisma.reservation.findMany({
        where: {
          date: { gte: timeStart, lte: timeEnd },
-         slot: slot
+         slot: slot,
+         status: 'CONFIRMED'
        },
        include: { tables: true }
     });

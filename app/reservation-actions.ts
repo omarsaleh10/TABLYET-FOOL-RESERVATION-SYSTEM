@@ -110,7 +110,7 @@ export async function createReservation(formData: {
 // --- Admin Actions ---
 
 export async function adminLogin(password: string) {
-    // For simplicity, hardcoded or env var. 
+    // For simplicity, hardcoded or env var.
     // In a real app, use hashed passwords and secure sessions.
     const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 
@@ -123,24 +123,32 @@ export async function adminLogin(password: string) {
     }
 }
 
-export async function deleteReservation(id: string) {
+export async function softDeleteReservation(id: string) {
     try {
-        await prisma.reservation.delete({
-            where: { id }
+        await prisma.reservation.update({
+            where: { id },
+            data: { status: 'CANCELLED' }
         });
         revalidatePath('/admin/dashboard');
         return { success: true };
     } catch (error) {
-        console.error('Delete Error:', error);
-        return { success: false, message: 'Failed to delete' };
+        console.error('Soft Delete Error:', error);
+        return { success: false, message: 'Failed to cancel reservation' };
     }
 }
 
 export async function markNoShow(id: string) {
-    // For now, "No Show" effectively frees up the table, so we can delete it 
-    // or we could add a status field to the Reservation model later.
-    // Let's just delete it for now to free capacity.
-    return deleteReservation(id);
+    try {
+        await prisma.reservation.update({
+            where: { id },
+            data: { status: 'NO_SHOW' }
+        });
+        revalidatePath('/admin/dashboard');
+        return { success: true };
+    } catch (error) {
+        console.error('No Show Error:', error);
+        return { success: false, message: 'Failed to mark No-Show' };
+    }
 }
 
 export async function toggleSlotLock(dateStr: string, slot: string) {
