@@ -9,7 +9,7 @@ export default function Navbar() {
           {/* Left Side: Brand Logo/Name */}
           <div className="flex-shrink-0 flex items-center gap-2">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="relative w-8 h-8 group-hover:scale-105 transition-transform duration-300">
+              <div className="relative w-8 h-8 group-hover:scale-110 group-hover:-rotate-12 transition-all duration-300">
                 <Image 
                   src="/logo-fool.png.jpeg" 
                   alt="Tablyet Fool Logo" 
@@ -17,7 +17,7 @@ export default function Navbar() {
                   className="object-contain"
                 />
               </div>
-              <span className="text-xl font-bold text-brand-beige tracking-wide group-hover:text-accent-yellow transition-colors duration-300">
+              <span className="text-xl font-bold text-brand-beige tracking-wide group-hover:text-brand-orange transition-colors duration-300 shadow-sm">
                 Tablyet Fool
               </span>
             </Link>
@@ -25,8 +25,8 @@ export default function Navbar() {
 
           {/* Right Side: Yalla Ramadan */}
           <div className="flex items-center gap-4">
-             <div className="hidden md:flex items-center gap-2 text-brand-beige">
-                <div className="relative w-12 h-12">
+             <div className="hidden md:flex items-center gap-2 text-brand-beige group cursor-pointer">
+                <div className="relative w-12 h-12 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 drop-shadow-md">
                     <Image 
                         src="/logo-ramadan.png" 
                         alt="Ramadan Crescent" 
@@ -34,11 +34,11 @@ export default function Navbar() {
                         className="object-contain"
                     />
                 </div>
-                <span className="font-semibold text-lg tracking-wider">Yalla Ramadan</span>
+                <span className="font-semibold text-lg tracking-wider group-hover:text-brand-orange transition-colors duration-300">Yalla Ramadan</span>
              </div>
-             {/* Mobile Menu Button (Placeholder for future phases) */}
+             {/* Mobile Menu Button */}
              <div className="md:hidden">
-                 <button className="text-brand-beige p-2">
+                 <button className="text-brand-beige p-2 hover:bg-white/10 rounded-full transition-colors">
                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                      </svg>

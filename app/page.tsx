@@ -112,7 +112,7 @@ export default function Home() {
                 {/* Vertical Divider */}
                 <div className="h-12 w-[1px] bg-black rounded-full" />
                 
-                <div className="relative w-24 h-24 md:w-32 md:h-32 drop-shadow-xl hover:scale-105 transition-transform duration-500">
+                <div className="relative w-24 h-24 md:w-32 md:h-32 drop-shadow-xl hover:scale-110 hover:-rotate-6 transition-transform duration-500 cursor-pointer">
                      <Image 
                         src="/logo-fool-no-bg.png" 
                         alt="Tablyet Fool" 
@@ -174,7 +174,7 @@ export default function Home() {
                                             className={`flex-shrink-0 w-20 h-24 rounded-xl border-2 flex flex-col items-center justify-center gap-1 transition-all snap-center relative overflow-hidden group
                                                 ${isSelected 
                                                 ? 'border-brand-orange bg-brand-orange/10 shadow-[0_0_15px_rgba(240,124,40,0.3)] scale-105 z-10' 
-                                                : 'border-brand-charcoal/10 bg-white hover:border-brand-orange/50 hover:bg-brand-orange/5'
+                                                : 'border-brand-charcoal/10 bg-white hover:border-brand-orange/50 hover:bg-brand-orange/5 hover:-translate-y-1'
                                                 }`}
                                         >
                                             <span className={`text-xs uppercase font-bold tracking-wider ${isSelected ? 'text-brand-orange' : 'text-brand-muted'}`}>
@@ -208,7 +208,7 @@ export default function Home() {
                         <button 
                             onClick={() => formData.date && setStep(2)}
                             disabled={!formData.date}
-                            className="w-full py-4 bg-gradient-to-r from-brand-orange to-[#E15F22] text-white font-bold text-lg rounded-xl shadow-lg shadow-brand-orange/30 hover:shadow-xl hover:scale-[1.01] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
+                            className="w-full py-4 bg-gradient-to-r from-brand-orange to-[#E15F22] text-white font-bold text-lg rounded-xl shadow-lg shadow-brand-orange/30 hover:shadow-xl hover:shadow-brand-orange/40 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
                         >
                             <span>Find a Table</span>
                             <span className="group-hover:translate-x-1 transition-transform">→</span>
@@ -231,8 +231,8 @@ export default function Home() {
                                     onClick={() => setFormData({...formData, slot: s})}
                                     className={`relative w-full h-16 rounded-xl font-bold font-display text-lg border-2 transition-all flex items-center justify-center gap-3 overflow-hidden group
                                         ${formData.slot === s 
-                                        ? 'border-brand-orange bg-brand-orange/5 text-brand-orange shadow-md' 
-                                        : 'border-brand-charcoal/5 bg-white text-brand-muted hover:border-brand-orange/30'
+                                        ? 'border-brand-orange bg-brand-orange/5 text-brand-orange shadow-md scale-[1.02]' 
+                                        : 'border-brand-charcoal/5 bg-white text-brand-muted hover:border-brand-orange/50 hover:bg-brand-orange/5 hover:-translate-y-0.5 hover:shadow-sm'
                                         }`}
                                 >
                                     <Clock size={18} className={formData.slot === s ? "text-brand-orange" : "text-brand-muted/40"} />
@@ -251,7 +251,7 @@ export default function Home() {
                             <button 
                                 onClick={() => setStep(3)}
                                 disabled={!formData.slot}
-                                className="flex-1 py-4 bg-gradient-to-r from-brand-orange to-[#E15F22] text-white font-bold text-lg rounded-xl shadow-lg shadow-brand-orange/30 hover:shadow-xl hover:scale-[1.01] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                                className="flex-1 py-4 bg-gradient-to-r from-brand-orange to-[#E15F22] text-white font-bold text-lg rounded-xl shadow-lg shadow-brand-orange/30 hover:shadow-xl hover:shadow-brand-orange/40 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                             >
                                 Continue
                             </button>
@@ -271,7 +271,7 @@ export default function Home() {
                              <div className="flex items-center justify-center gap-8">
                                 <button 
                                     onClick={() => setFormData({...formData, partySize: Math.max(1, formData.partySize - 1)})}
-                                    className="w-14 h-14 rounded-full border-2 border-brand-charcoal/10 flex items-center justify-center text-2xl hover:border-brand-orange hover:text-brand-orange transition-all bg-white"
+                                    className="w-14 h-14 rounded-full border-2 border-brand-charcoal/10 flex items-center justify-center text-2xl hover:border-brand-orange hover:text-brand-orange hover:bg-brand-orange/5 hover:scale-110 active:scale-90 transition-all bg-white"
                                 >-</button>
                                 
                                 <div className="text-center min-w-[80px]">
@@ -281,7 +281,7 @@ export default function Home() {
 
                                 <button 
                                     onClick={() => setFormData({...formData, partySize: Math.min(50, formData.partySize + 1)})}
-                                    className="w-14 h-14 rounded-full border-2 border-brand-charcoal/10 flex items-center justify-center text-2xl hover:border-brand-orange hover:text-brand-orange transition-all bg-white"
+                                    className="w-14 h-14 rounded-full border-2 border-brand-charcoal/10 flex items-center justify-center text-2xl hover:border-brand-orange hover:text-brand-orange hover:bg-brand-orange/5 hover:scale-110 active:scale-90 transition-all bg-white"
                                 >+</button>
                             </div>
                         </div>
@@ -299,7 +299,7 @@ export default function Home() {
                             <button 
                                 onClick={handleAvailabilityCheck}
                                 disabled={loading || formData.partySize < 1}
-                                className="flex-1 py-4 bg-gradient-to-r from-brand-orange to-[#E15F22] text-white font-bold text-lg rounded-xl shadow-lg shadow-brand-orange/30 hover:shadow-xl hover:scale-[1.01] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                                className="flex-1 py-4 bg-gradient-to-r from-brand-orange to-[#E15F22] text-white font-bold text-lg rounded-xl shadow-lg shadow-brand-orange/30 hover:shadow-xl hover:shadow-brand-orange/40 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                             >
                                 {loading ? <span className="animate-spin">⌛</span> : 'Check Availability'}
                             </button>
@@ -364,7 +364,7 @@ export default function Home() {
                         <button 
                             type="submit"
                             disabled={loading}
-                            className="w-full py-4 bg-gradient-to-r from-brand-orange to-[#E15F22] text-white font-bold text-lg rounded-xl shadow-lg shadow-brand-orange/30 hover:shadow-xl hover:scale-[1.01] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                            className="w-full py-4 bg-gradient-to-r from-brand-orange to-[#E15F22] text-white font-bold text-lg rounded-xl shadow-lg shadow-brand-orange/30 hover:shadow-xl hover:shadow-brand-orange/40 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                         >
                             {loading ? 'Confirming...' : 'Complete Reservation'}
                         </button>
@@ -389,7 +389,7 @@ export default function Home() {
                 { label: 'PM-AM', val: '10-4' },
                 { label: 'Seats', val: '228' },
             ].map((stat, i) => (
-                <div key={i} className="w-16 h-16 rounded-full border-2 border-dashed border-brand-charcoal/20 flex flex-col items-center justify-center bg-brand-beige shadow-sm rotate-[-5deg] hover:rotate-0 transition-transform cursor-default">
+                <div key={i} className="w-16 h-16 rounded-full border-2 border-dashed border-brand-charcoal/20 flex flex-col items-center justify-center bg-brand-beige shadow-sm rotate-[-5deg] hover:rotate-0 hover:scale-110 hover:border-brand-orange/50 transition-all duration-300 cursor-default">
                     <span className="text-lg font-bold font-display text-brand-charcoal">{stat.val}</span>
                     <span className="text-xs uppercase tracking-wide text-brand-muted">{stat.label}</span>
                 </div>
