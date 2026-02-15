@@ -387,7 +387,7 @@ export default function Home() {
             {[
                 { label: 'Nights', val: '30' },
                 { label: 'PM-AM', val: '10-4' },
-                { label: 'Seats', val: '200' },
+                { label: 'Seats', val: '228' },
             ].map((stat, i) => (
                 <div key={i} className="w-16 h-16 rounded-full border-2 border-dashed border-brand-charcoal/20 flex flex-col items-center justify-center bg-brand-beige shadow-sm rotate-[-5deg] hover:rotate-0 transition-transform cursor-default">
                     <span className="text-lg font-bold font-display text-brand-charcoal">{stat.val}</span>

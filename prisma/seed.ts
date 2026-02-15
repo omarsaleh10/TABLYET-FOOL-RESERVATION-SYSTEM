@@ -9,12 +9,12 @@ async function main() {
   await prisma.table.deleteMany({})
   console.log('Deleted all existing tables.')
 
-  // 2. Create 34 tables (T1 -> T34)
+  // 2. Create 38 tables (T1 -> T38) with capacity 6
   const tablesData = []
-  for (let i = 1; i <= 34; i++) {
+  for (let i = 1; i <= 38; i++) {
     tablesData.push({
       name: `T${i}`,
-      capacity: 5,
+      capacity: 6,
     })
   }
 
@@ -22,7 +22,7 @@ async function main() {
     data: tablesData,
   })
 
-  console.log(`Created ${tablesData.length} tables (T1 - T34).`)
+  console.log(`Created ${tablesData.length} tables (T1 - T38) with capacity 6.`)
   console.log('Seeding finished.')
 }
 

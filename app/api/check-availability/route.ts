@@ -43,27 +43,24 @@ export async function POST(request: Request) {
 
     const reservedSeats = existingReservations.reduce((acc, res) => acc + res.partySize, 0);
 
-    // Basic capacity check
-    if (reservedSeats + partySize > totalCapacity) {
-         return NextResponse.json({ available: false });
+    // --- NEW LOGIC: N-Tables Formula ---
+    // Capacity = 4N + 2
+    // N = Ceil((PartySize - 2) / 4)
+
+    let tablesNeeded = 1;
+    if (partySize > 6) {
+        tablesNeeded = Math.ceil((partySize - 2) / 4);
     }
 
-    // Exact table availability check (mirroring actions.ts)
+    // Exact table availability check
     const bookedTableIds = new Set<number>();
     existingReservations.forEach(res => {
       res.tables.forEach(t => bookedTableIds.add(t.id));
     });
 
     const availableTables = tables.filter(t => !bookedTableIds.has(t.id));
-    availableTables.sort((a, b) => a.capacity - b.capacity);
 
-    let allocatedCapacity = 0;
-    for (const table of availableTables) {
-         allocatedCapacity += table.capacity;
-         if (allocatedCapacity >= partySize) break;
-    }
-
-    if (allocatedCapacity < partySize) {
+    if (availableTables.length < tablesNeeded) {
         return NextResponse.json({ available: false });
     }
 

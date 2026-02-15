@@ -56,13 +56,20 @@ export async function createReservation(formData: {
       }
     });
 
-    const reservedSeats = existingReservations.reduce((acc, res) => acc + res.partySize, 0);
+    // --- NEW LOGIC: N-Tables Formula ---
+    // 1 Table = 6
+    // 2 Tables = 10 (6+6-2)
+    // 3 Tables = 14 (6+6+6-4)
+    // Formula: Capacity = 4N + 2
+    // Inverse: N = Ceil((PartySize - 2) / 4)
 
-    if (reservedSeats + partySize > totalCapacity) {
-      return { success: false, message: 'Not enough overall capacity for this slot.' };
+    // Base case: Party of 1 or 2 fits in 1 table (actually formula gives 0, so min 1)
+    let tablesNeeded = 1;
+    if (partySize > 6) {
+        tablesNeeded = Math.ceil((partySize - 2) / 4);
     }
-
-    // Find which tables are already booked
+    
+    // Find free tables
     const bookedTableIds = new Set<number>();
     existingReservations.forEach(res => {
       res.tables.forEach(t => bookedTableIds.add(t.id));
@@ -70,24 +77,13 @@ export async function createReservation(formData: {
 
     const availableTables = tables.filter(t => !bookedTableIds.has(t.id));
 
-    // Simple allocation: First Fit
-    availableTables.sort((a, b) => a.capacity - b.capacity);
-
-    let allocatedTables: { id: number }[] = [];
-    let allocatedCapacity = 0;
-
-    for (const table of availableTables) {
-      if (allocatedCapacity < partySize) {
-        allocatedTables.push({ id: table.id });
-        allocatedCapacity += table.capacity;
-      } else {
-        break;
-      }
+    if (availableTables.length < tablesNeeded) {
+        return { success: false, message: 'Not enough adjacent tables available for your party size.' };
     }
 
-    if (allocatedCapacity < partySize) {
-       return { success: false, message: 'Not enough available tables to fit your party.' };
-    }
+    // Allocate Tables (Just take the first N available)
+    // Assumption: Any N available tables can be joined (as per user instruction)
+    const allocatedTables = availableTables.slice(0, tablesNeeded).map(t => ({ id: t.id }));
 
     const reservation = await prisma.reservation.create({
       data: {
