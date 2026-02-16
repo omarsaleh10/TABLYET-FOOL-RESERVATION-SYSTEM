@@ -181,7 +181,10 @@ export default function Home() {
                                     return (
                                         <button
                                             key={i}
-                                            onClick={() => setFormData({...formData, date: dateStr})}
+                                            onClick={() => {
+                                                setFormData({...formData, date: dateStr});
+                                                setAvailabilityError('');
+                                            }}
                                             className={`flex-shrink-0 w-20 h-24 rounded-xl border-2 flex flex-col items-center justify-center gap-1 transition-all snap-center relative overflow-hidden group
                                                 ${isSelected 
                                                 ? 'border-brand-orange bg-brand-orange/10 shadow-[0_0_15px_rgba(240,124,40,0.3)] scale-105 z-10' 
@@ -209,7 +212,7 @@ export default function Home() {
                         {/* Selected Date Display */}
                         {formData.date && (
                             <div className="text-center animate-in fade-in zoom-in duration-300">
-                                <p className="text-brand-muted text-sm uppercase tracking-widest font-bold">Selected Night</p>
+                                <p className="text-brand-muted text-sm uppercase tracking-widest font-bold">Selected Night </p>
                                 <p className="text-brand-charcoal font-display text-lg">
                                     {new Date(formData.date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
                                 </p>
@@ -239,7 +242,10 @@ export default function Home() {
                             {slots.map((s) => (
                                 <button
                                     key={s}
-                                    onClick={() => setFormData({...formData, slot: s})}
+                                    onClick={() => {
+                                        setFormData({...formData, slot: s});
+                                        setAvailabilityError('');
+                                    }}
                                     className={`relative w-full h-16 rounded-xl font-bold font-display text-lg border-2 transition-all flex items-center justify-center gap-3 overflow-hidden group
                                         ${formData.slot === s 
                                         ? 'border-brand-orange bg-brand-orange/5 text-brand-orange shadow-md scale-[1.02]' 
