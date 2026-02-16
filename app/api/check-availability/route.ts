@@ -44,7 +44,13 @@ export async function POST(request: Request) {
 
     const reservedSeats = existingReservations.reduce((acc, res) => acc + res.partySize, 0);
 
-    // --- NEW LOGIC: N-Tables Formula ---
+    // --- NEW LOGIC: Seat Capacity Limit ---
+    const MAX_SEATS = 160;
+    if (reservedSeats + partySize > MAX_SEATS) {
+        return NextResponse.json({ available: false, message: 'Fully booked (Capacity Reached)' });
+    }
+
+    // --- OLD LOGIC: N-Tables Formula ---
     // Capacity = 4N + 2
     // N = Ceil((PartySize - 2) / 4)
 

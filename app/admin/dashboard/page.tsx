@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { softDeleteReservation, markNoShow, toggleSlotLock } from '../../reservation-actions';
 import AdminDatePicker from '@/components/AdminDatePicker';
+import AdminSlotFilter from '@/components/AdminSlotFilter';
 
 const prisma = new PrismaClient();
 
@@ -99,6 +100,11 @@ export default async function AdminDashboard({
                   <p className="text-2xl font-bold text-brand-text">{occupiedCount} <span className="text-sm text-brand-muted font-normal">/ 38</span></p>
               </div>
           </div>
+        </div>
+
+        {/* --- SLOT FILTER --- */}
+        <div className="flex justify-center md:justify-start">
+             <AdminSlotFilter />
         </div>
 
         {/* --- CONTROL CENTER (Locks) --- */}
