@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     const reservedSeats = existingReservations.reduce((acc, res) => acc + res.partySize, 0);
 
     // --- NEW LOGIC: Seat Capacity Limit ---
-    const MAX_SEATS = 160;
+    const MAX_SEATS = 180;
     if (reservedSeats + partySize > MAX_SEATS) {
         return NextResponse.json({ available: false, message: 'Fully booked (Capacity Reached)' });
     }

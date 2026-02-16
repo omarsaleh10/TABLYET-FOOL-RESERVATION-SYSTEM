@@ -50,6 +50,7 @@ export async function createReservation(formData: {
           lte: timeEnd,
         },
         slot: slot,
+        status: 'CONFIRMED', // Fix: Ignore cancelled/no-show
       },
       include: {
         tables: true 
@@ -78,7 +79,7 @@ export async function createReservation(formData: {
     const availableTables = tables.filter(t => !bookedTableIds.has(t.id));
 
     if (availableTables.length < tablesNeeded) {
-        return { success: false, message: 'Not enough adjacent tables available for your party size.' };
+        return { success: false, message: 'Not enough tables available for your party size.' };
     }
 
     // Allocate Tables (Just take the first N available)

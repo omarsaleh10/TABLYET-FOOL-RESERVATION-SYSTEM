@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cairo, Merriweather, Inter } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next"
 
 const cairo = Cairo({
   variable: "--font-cairo",
