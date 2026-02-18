@@ -33,7 +33,7 @@ export default async function SuccessPage({
   // WhatsApp Message
   const phone = process.env.NEXT_PUBLIC_RESTAURANT_PHONE || ''; 
   
-  const message = `Hello! I have a booking at Yala Ramadan by Tablyet Fool, for Night: ${dateStr}, Slot: ${reservation.slot}, Guests: ${reservation.partySize}, Ref: #${refId} Please confirm my table.`;
+  const message = `Hello! I have a booking at Yala Ramadan by Tablyet Fool, for Night: ${dateStr}, Slot: ${reservation.slot}, Guests: ${reservation.partySize},name: ${reservation.customerName}, Ref: #${refId} Please confirm my table.`;
   
   const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 

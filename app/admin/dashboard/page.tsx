@@ -245,7 +245,11 @@ export default async function AdminDashboard({
                                 <p className="text-xs text-brand-muted uppercase">Phone</p>
                                 <p className="text-brand-text font-mono tracking-tight">{res.customerPhone}</p>
                         </div>
-                        <div className="col-span-2 bg-white p-2 rounded border border-brand-text/5">
+                        <div className="bg-white p-2 rounded border border-brand-text/5">
+                                <p className="text-xs text-brand-muted uppercase">Guests</p>
+                                <p className="text-brand-text font-bold">{res.partySize}</p>
+                        </div>
+                        <div className="bg-white p-2 rounded border border-brand-text/5">
                                 <p className="text-xs text-brand-muted uppercase">Tables</p>
                                 <p className="text-brand-text font-bold">{res.tables.map(t => t.name).join(', ')}</p>
                         </div>
