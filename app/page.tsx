@@ -170,6 +170,15 @@ export default function Home() {
                             <div className="flex overflow-x-auto gap-3 pb-6 px-1 snap-x scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                                 {Array.from({ length: 30 }).map((_, i) => {
                                     const d = new Date();
+                                    
+                                    // --- NEW LOGIC: Late Night Extension ---
+                                    // If current time is < 5:00 AM, we consider "Yesterday" as the active booking night.
+                                    // Example: It's Saturday 2:00 AM. User wants to book "Friday Night" slot (2AM-4AM).
+                                    // So we shift the starting point back by 1 day.
+                                    if (d.getHours() < 5) {
+                                        d.setDate(d.getDate() - 1);
+                                    }
+
                                     d.setDate(d.getDate() + i);
                                     // FORCE LOCAL STRING (YYYY-MM-DD) to match the visual label
                                     const year = d.getFullYear();
