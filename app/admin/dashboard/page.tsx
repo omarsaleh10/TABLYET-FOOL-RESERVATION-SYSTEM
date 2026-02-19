@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { softDeleteReservation, markNoShow, toggleSlotLock } from '../../reservation-actions';
 import AdminDatePicker from '@/components/AdminDatePicker';
 import AdminSlotFilter from '@/components/AdminSlotFilter';
+import MarkNoShowButton from '@/components/MarkNoShowButton';
 
 const prisma = new PrismaClient();
 
@@ -206,18 +207,7 @@ export default async function AdminDashboard({
                                     {res.tables.map(t => t.name).join(', ')}
                                 </td>
                                 <td className="p-4 text-right">
-                                    <form action={async () => {
-                                        'use server'
-                                        await markNoShow(res.id);
-                                    }}>
-                                        <button 
-                                            type="submit"
-                                            className="text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 px-4 py-2 rounded-lg transition-colors font-bold text-xs uppercase tracking-wide"
-                                            title="Removes reservation and frees table capacity"
-                                        >
-                                            Mark No-Show / Free
-                                        </button>
-                                    </form>
+                                    <MarkNoShowButton reservationId={res.id} />
                                 </td>
                             </tr>
                         ))
@@ -254,14 +244,11 @@ export default async function AdminDashboard({
                                 <p className="text-brand-text font-bold">{res.tables.map(t => t.name).join(', ')}</p>
                         </div>
                     </div>
-                     <form action={async () => {
-                        'use server'
-                        await markNoShow(res.id);
-                    }}>
-                        <button type="submit" className="w-full text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 px-4 py-3 rounded-lg transition-colors font-bold text-sm uppercase">
-                            Mark No-Show / Free
-                        </button>
-                    </form>
+                    <MarkNoShowButton 
+                        reservationId={res.id} 
+                        className="w-full text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 px-4 py-3 rounded-lg transition-colors font-bold text-sm uppercase"
+                        isMobile={true}
+                    />
                 </div>
             ))}
         </div>
